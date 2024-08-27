@@ -1,12 +1,9 @@
 import express from "express";
-import { ItemsController } from "../controller/items-controller";
+import { AuthController } from "../controller/auth-controller";
 
-const publicRoute = express.Router();
+const publicApiRoute = express.Router();
 
-publicRoute.get("/api/items", ItemsController.getAll);
-publicRoute.post("/api/items", ItemsController.store);
-publicRoute.get("/api/items/:itemsId", ItemsController.findByItemsId);
-publicRoute.put("/api/items/:itemsId", ItemsController.updateByItemsId);
-publicRoute.delete("/api/items/:itemsId", ItemsController.destroyByItemsId);
+publicApiRoute.post("/api/login", AuthController.login);
+publicApiRoute.post("/api/register", AuthController.register);
 
-export { publicRoute };
+export { publicApiRoute };

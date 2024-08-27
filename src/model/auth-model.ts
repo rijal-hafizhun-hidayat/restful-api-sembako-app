@@ -5,7 +5,10 @@ export type LoginRequest = {
   password: string;
 };
 
-export type LoginResponse = string;
+export type LoginResponse = {
+  name: string;
+  token: string;
+};
 
 export type RegisterRequest = {
   email: string;
@@ -26,6 +29,9 @@ export function toRegisterResponse(users: users): RegisterResponse {
   };
 }
 
-export function toLoginResponse(token: string): LoginResponse {
-  return token as string;
+export function toLoginResponse(user: users, token: string): LoginResponse {
+  return {
+    name: user.name,
+    token: token,
+  };
 }

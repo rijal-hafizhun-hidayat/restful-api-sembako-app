@@ -39,7 +39,7 @@ export class AuthService {
       }
     );
 
-    return toLoginResponse(token);
+    return toLoginResponse(user, token);
   }
 
   static async register(request: RegisterRequest): Promise<RegisterResponse> {

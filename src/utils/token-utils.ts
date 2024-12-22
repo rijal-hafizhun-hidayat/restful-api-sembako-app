@@ -1,5 +1,6 @@
 import type { user } from "@prisma/client";
 import Jwt from "jsonwebtoken";
+import { BlacklistUtils } from "./Blacklist-utils";
 
 export class TokenUtils {
   static async generateToken(user: user): Promise<string> {
@@ -16,6 +17,29 @@ export class TokenUtils {
     } catch (error) {
       console.error("Error generating token:", error);
       throw new Error("Could not generate token.");
+    }
+  }
+
+  static async verifyToken(token: string) {
+    const jwtKey = process.env.JWT_KEY as string;
+    if (!jwtKey) {
+      throw new Error("JWT_KEY is not defined in the environment variables.");
+    }
+
+    if (BlacklistUtils.hasTokenBlacklist(token)) {
+      throw new Error("token is revoked");
+    }
+
+    try {
+      return Jwt.verify(token, jwtKey);
+    } catch (error: any) {
+      if (error.name === "TokenExpiredError") {
+        throw new Error("Token has expired");
+      } else if (error.name === "JsonWebTokenError") {
+        throw new Error("Invalid token");
+      } else {
+        throw new Error("Could not verify token");
+      }
     }
   }
 }

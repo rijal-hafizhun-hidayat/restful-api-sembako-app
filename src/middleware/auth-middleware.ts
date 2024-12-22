@@ -9,18 +9,21 @@ export const authMiddleware = async (
   req: CostumeRequest,
   res: Response,
   next: NextFunction
-) => {
-  const token = req.headers.authorization;
+): Promise<any> => {
+  const authHeader = req.headers.authorization;
 
-  if (!token) {
-    throw new ErrorResponse(403, "no token provided");
+  if (!authHeader) {
+    return res.status(403).json({
+      statusCode: 403,
+      message: "no token provided",
+    });
   }
 
-  const [, tokenValue] = token.split(" ");
+  const [, token] = authHeader.split(" ");
 
   try {
     const decoded: DecodedToken = (await TokenUtils.verifyToken(
-      tokenValue
+      token
     )) as DecodedToken;
     const userId: number = decoded.userId;
     const user = await prisma.user.findUnique({
@@ -37,7 +40,10 @@ export const authMiddleware = async (
     });
 
     if (!user) {
-      throw new ErrorResponse(403, "user not found");
+      return res.status(401).json({
+        statusCode: 401,
+        message: "Unauthorized",
+      });
     }
 
     const currentUser = {
@@ -48,7 +54,7 @@ export const authMiddleware = async (
     };
 
     req.currentUser = currentUser;
-    return next();
+    next();
   } catch (error: any) {
     let errorMessage = "Token invalid";
     if (error.name === "TokenExpiredError") {
@@ -57,6 +63,6 @@ export const authMiddleware = async (
       errorMessage = "Token malformed";
     }
 
-    throw new ErrorResponse(403, errorMessage);
+    next(new ErrorResponse(401, errorMessage));
   }
 };

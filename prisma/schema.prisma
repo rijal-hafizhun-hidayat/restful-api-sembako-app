@@ -15,6 +15,7 @@ datasource db {
 
 model user {
   id         Int        @id @default(autoincrement())
+  name       String     @db.VarChar()
   email      String     @unique @db.VarChar()
   password   String     @db.VarChar()
   created_at DateTime   @default(now())

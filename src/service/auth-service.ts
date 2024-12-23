@@ -5,6 +5,7 @@ import {
   type LoginRequest,
   type LoginResponse,
 } from "../model/auth-model";
+import { BlacklistUtils } from "../utils/Blacklist-utils";
 import { TokenUtils } from "../utils/token-utils";
 import { AuthValidation } from "../validation/auth-validation";
 import { Validation } from "../validation/validation";
@@ -38,5 +39,15 @@ export class AuthService {
     const token: string = await TokenUtils.generateToken(user);
 
     return toLoginResponse(token);
+  }
+
+  static async logout(tokenHeader: string) {
+    const [, token] = tokenHeader.split(" ");
+
+    if (BlacklistUtils.hasTokenBlacklist(token)) {
+      throw new ErrorResponse(401, "Token has been blacklisted");
+    }
+
+    BlacklistUtils.addTokenBlacklist(token);
   }
 }

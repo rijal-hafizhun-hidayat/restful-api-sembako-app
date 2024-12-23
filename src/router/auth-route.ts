@@ -18,5 +18,6 @@ authRoute.put("/api/role/:roleId", RoleController.updateRoleByRoleId);
 authRoute.delete("/api/role/:roleId", RoleController.deleteRoleByRoleId);
 
 authRoute.get("/api/category-item", CategoryItemController.getAllCategoryItems);
+authRoute.post("/api/category-item", CategoryItemController.storeCategoryItem);
 
 export { authRoute };

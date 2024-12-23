@@ -2,6 +2,7 @@ import express from "express";
 import { authMiddleware } from "../middleware/auth-middleware";
 import { RoleController } from "../controller/role-controller";
 import { AuthController } from "../controller/auth-controller";
+import { CategoryItemController } from "../controller/category-item-controller";
 
 const authRoute = express.Router();
 
@@ -15,5 +16,8 @@ authRoute.post("/api/role", RoleController.storeRole);
 authRoute.get("/api/role/:roleId", RoleController.getRoleByRoleId);
 authRoute.put("/api/role/:roleId", RoleController.updateRoleByRoleId);
 authRoute.delete("/api/role/:roleId", RoleController.deleteRoleByRoleId);
+
+authRoute.get("/api/category-item", CategoryItemController.getAllCategoryItems);
+authRoute.post("/api/category-item", CategoryItemController.storeCategoryItem);
 
 export { authRoute };

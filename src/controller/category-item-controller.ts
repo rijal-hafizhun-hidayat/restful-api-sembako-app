@@ -37,4 +37,68 @@ export class CategoryItemController {
       next(error);
     }
   }
+
+  static async getCategoryItemByCategoryItemId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> {
+    try {
+      const categoryItemId = Number(req.params.categoryItemId);
+      const result = await CategoryItemService.getCategoryItemById(
+        categoryItemId
+      );
+      return res.status(200).json({
+        statusCode: 200,
+        message: "success get category items",
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async updateCategoryItemByCategoryItemId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> {
+    try {
+      const categoryItemId = Number(req.params.categoryItemId);
+      const request: CategoryItemRequest = req.body as CategoryItemRequest;
+      const result =
+        await CategoryItemService.updateCategoryItemByCategoryItemId(
+          categoryItemId,
+          request
+        );
+      return res.status(200).json({
+        statusCode: 200,
+        message: "success update category item",
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async deleteCategoryItemByCategoryItemId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> {
+    try {
+      const categoryItemId = Number(req.params.categoryItemId);
+      const result =
+        await CategoryItemService.deleteCategoryItemByCategoryItemId(
+          categoryItemId
+        );
+      return res.status(200).json({
+        statusCode: 200,
+        message: "success delete category item",
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

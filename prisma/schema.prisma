@@ -42,9 +42,18 @@ model user_role {
   role role @relation(fields: [role_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
 
-model category_item {
+model category {
   id         Int      @id @default(autoincrement())
   name       String   @db.VarChar()
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+}
+
+model item {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar()
+  price       Int      @db.Integer
+  description String?  @db.VarChar()
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
 }

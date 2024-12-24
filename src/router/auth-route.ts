@@ -2,7 +2,7 @@ import express from "express";
 import { authMiddleware } from "../middleware/auth-middleware";
 import { RoleController } from "../controller/role-controller";
 import { AuthController } from "../controller/auth-controller";
-import { CategoryItemController } from "../controller/category-item-controller";
+import { CategoryController } from "../controller/category-controller";
 
 const authRoute = express.Router();
 
@@ -17,19 +17,19 @@ authRoute.get("/api/role/:roleId", RoleController.getRoleByRoleId);
 authRoute.put("/api/role/:roleId", RoleController.updateRoleByRoleId);
 authRoute.delete("/api/role/:roleId", RoleController.deleteRoleByRoleId);
 
-authRoute.get("/api/category-item", CategoryItemController.getAllCategoryItems);
-authRoute.post("/api/category-item", CategoryItemController.storeCategoryItem);
+authRoute.get("/api/category", CategoryController.getAllCategories);
+authRoute.post("/api/category", CategoryController.storeCategory);
 authRoute.get(
-  "/api/category-item/:categoryItemId",
-  CategoryItemController.getCategoryItemByCategoryItemId
+  "/api/category/:categoryId",
+  CategoryController.getCategoryByCategoryId
 );
 authRoute.put(
-  "/api/category-item/:categoryItemId",
-  CategoryItemController.updateCategoryItemByCategoryItemId
+  "/api/category/:categoryId",
+  CategoryController.updateCategoryByCategoryId
 );
 authRoute.delete(
-  "/api/category-item/:categoryItemId",
-  CategoryItemController.deleteCategoryItemByCategoryItemId
+  "/api/category/:categoryId",
+  CategoryController.deleteCategoryByCategoryId
 );
 
 export { authRoute };

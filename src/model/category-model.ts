@@ -1,12 +1,10 @@
-import type { category_item } from "@prisma/client";
+import type { category } from "@prisma/client";
 
-export interface CategoryItemRequest {
+export interface CategoryRequest {
   name: string;
 }
 
-export function toCategoryItemsResponse(
-  categoryItems: category_item[]
-): category_item[] {
+export function toCategoriesResponse(categoryItems: category[]): category[] {
   return categoryItems.map((categoryItem) => {
     return {
       id: categoryItem.id,
@@ -17,9 +15,7 @@ export function toCategoryItemsResponse(
   });
 }
 
-export function toCategoryItemResponse(
-  categoryItem: category_item
-): category_item {
+export function toCategoryResponse(categoryItem: category): category {
   return {
     id: categoryItem.id,
     name: categoryItem.name,

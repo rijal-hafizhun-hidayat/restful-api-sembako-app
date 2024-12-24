@@ -3,6 +3,7 @@ import { authMiddleware } from "../middleware/auth-middleware";
 import { RoleController } from "../controller/role-controller";
 import { AuthController } from "../controller/auth-controller";
 import { CategoryController } from "../controller/category-controller";
+import { ItemController } from "../controller/item-controller";
 
 const authRoute = express.Router();
 
@@ -32,4 +33,5 @@ authRoute.delete(
   CategoryController.deleteCategoryByCategoryId
 );
 
+authRoute.get("/api/item", ItemController.getAllItems);
 export { authRoute };

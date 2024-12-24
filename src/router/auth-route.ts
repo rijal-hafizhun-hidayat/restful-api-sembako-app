@@ -19,5 +19,17 @@ authRoute.delete("/api/role/:roleId", RoleController.deleteRoleByRoleId);
 
 authRoute.get("/api/category-item", CategoryItemController.getAllCategoryItems);
 authRoute.post("/api/category-item", CategoryItemController.storeCategoryItem);
+authRoute.get(
+  "/api/category-item/:categoryItemId",
+  CategoryItemController.getCategoryItemByCategoryItemId
+);
+authRoute.put(
+  "/api/category-item/:categoryItemId",
+  CategoryItemController.updateCategoryItemByCategoryItemId
+);
+authRoute.delete(
+  "/api/category-item/:categoryItemId",
+  CategoryItemController.deleteCategoryItemByCategoryItemId
+);
 
 export { authRoute };

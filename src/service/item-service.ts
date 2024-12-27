@@ -89,4 +89,51 @@ export class ItemService {
 
     return toItemWithCategoryItemWithCategoryResponse(item);
   }
+
+  static async updateItemByItemId(
+    request: ItemRequest,
+    itemId: number
+  ): Promise<item> {
+    const requestBody: ItemRequest = Validation.validate(
+      ItemValidation.itemWithCategorySchema,
+      request
+    );
+
+    const isItemExist = await prisma.item.findUnique({
+      where: {
+        id: itemId,
+      },
+    });
+
+    if (!isItemExist) {
+      throw new ErrorResponse(404, "item not found");
+    }
+
+    const [updateItem] = await prisma.$transaction([
+      prisma.item.update({
+        where: {
+          id: itemId,
+        },
+        data: {
+          name: requestBody.name,
+          price: requestBody.price,
+          description: requestBody.description,
+        },
+      }),
+    ]);
+
+    await prisma.$transaction([
+      prisma.category_item.update({
+        where: {
+          id: updateItem.id,
+        },
+        data: {
+          item_id: updateItem.id,
+          category_id: requestBody.category.id,
+        },
+      }),
+    ]);
+
+    return toItemResponse(updateItem);
+  }
 }

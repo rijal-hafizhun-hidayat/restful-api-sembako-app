@@ -73,4 +73,23 @@ export class ItemController {
       next(error);
     }
   }
+
+  static async updateItemByItemId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> {
+    try {
+      const itemId: number = parseInt(req.params.itemId);
+      const request: ItemRequest = req.body as ItemRequest;
+      const result = await ItemService.updateItemByItemId(request, itemId);
+      return res.status(200).json({
+        statusCode: 200,
+        message: "success update item",
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

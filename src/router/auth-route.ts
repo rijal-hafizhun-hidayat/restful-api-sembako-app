@@ -34,4 +34,8 @@ authRoute.delete(
 );
 
 authRoute.get("/api/item", ItemController.getAllItems);
+authRoute.post("/api/item", ItemController.storeItem);
+authRoute.get("/api/item/:itemId", ItemController.getItemByItemId);
+authRoute.delete("/api/item/:itemId", ItemController.deleteItemByItemId);
+authRoute.put("/api/item/:itemId", ItemController.updateItemByItemId);
 export { authRoute };

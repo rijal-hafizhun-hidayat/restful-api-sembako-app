@@ -51,13 +51,14 @@ model category {
 }
 
 model item {
-  id            Int            @id @default(autoincrement())
-  name          String         @db.VarChar()
-  price         Int            @db.Integer
-  description   String?        @db.VarChar()
-  created_at    DateTime       @default(now())
-  updated_at    DateTime       @updatedAt
-  category_item category_item?
+  id               Int                @id @default(autoincrement())
+  name             String             @db.VarChar()
+  price            Int                @db.Integer
+  description      String?            @db.VarChar()
+  created_at       DateTime           @default(now())
+  updated_at       DateTime           @updatedAt
+  category_item    category_item?
+  transaction_item transaction_item[]
 }
 
 model category_item {
@@ -69,4 +70,24 @@ model category_item {
 
   items    item     @relation(fields: [item_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   category category @relation(fields: [category_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+}
+
+model transaction {
+  id               Int               @id @default(autoincrement())
+  total_price      Int
+  created_at       DateTime          @default(now())
+  updated_at       DateTime          @updatedAt
+  transaction_item transaction_item?
+}
+
+model transaction_item {
+  id             Int      @id @default(autoincrement())
+  transaction_id Int      @unique
+  item_id        Int
+  qty            Int
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  transaction transaction @relation(fields: [transaction_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  items       item        @relation(fields: [item_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }

@@ -4,6 +4,7 @@ import { RoleController } from "../controller/role-controller";
 import { AuthController } from "../controller/auth-controller";
 import { CategoryController } from "../controller/category-controller";
 import { ItemController } from "../controller/item-controller";
+import { TransactionController } from "../controller/transaction-controller";
 
 const authRoute = express.Router();
 
@@ -38,4 +39,6 @@ authRoute.post("/api/item", ItemController.storeItem);
 authRoute.get("/api/item/:itemId", ItemController.getItemByItemId);
 authRoute.delete("/api/item/:itemId", ItemController.deleteItemByItemId);
 authRoute.put("/api/item/:itemId", ItemController.updateItemByItemId);
+
+authRoute.post("/api/transaction", TransactionController.storeTransaction);
 export { authRoute };

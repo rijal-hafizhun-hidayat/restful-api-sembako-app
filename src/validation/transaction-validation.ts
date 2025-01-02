@@ -9,7 +9,8 @@ export class TransactionValidation {
     updated_at: string().datetime(),
   });
   static readonly transactionWithItemSchema: ZodType = z.object({
-    price: number().int(),
+    total_price: number().int(),
+    qty_per_item: number().array(),
     items: array(TransactionValidation.itemSchema).min(1),
   });
 }

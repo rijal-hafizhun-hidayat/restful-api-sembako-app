@@ -1,7 +1,8 @@
 import type { item, transaction_item } from "@prisma/client";
 
 export interface TransactionRequest {
-  total: number;
+  total_price: number;
+  qty_per_item: number[];
   items: item[];
 }
 

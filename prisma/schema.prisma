@@ -73,16 +73,16 @@ model category_item {
 }
 
 model transaction {
-  id               Int               @id @default(autoincrement())
+  id               Int                @id @default(autoincrement())
   total_price      Int
-  created_at       DateTime          @default(now())
-  updated_at       DateTime          @updatedAt
-  transaction_item transaction_item?
+  created_at       DateTime           @default(now())
+  updated_at       DateTime           @updatedAt
+  transaction_item transaction_item[]
 }
 
 model transaction_item {
   id             Int      @id @default(autoincrement())
-  transaction_id Int      @unique
+  transaction_id Int
   item_id        Int
   qty            Int
   created_at     DateTime @default(now())

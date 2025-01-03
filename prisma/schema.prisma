@@ -89,5 +89,5 @@ model transaction_item {
   updated_at     DateTime @updatedAt
 
   transaction transaction @relation(fields: [transaction_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  items       item        @relation(fields: [item_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  item        item        @relation(fields: [item_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }

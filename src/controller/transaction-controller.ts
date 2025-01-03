@@ -59,4 +59,27 @@ export class TransactionController {
       next(error);
     }
   }
+
+  static async getAllTransactionWithTransactionItemsAndItem(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> {
+    try {
+      const transactionId: number = parseInt(
+        req.params.transactionId as string
+      );
+      const result =
+        await TransactionService.getAllTransactionWithTransactionItemsAndItem(
+          transactionId
+        );
+      return res.status(200).json({
+        statusCode: 200,
+        message: "success get transaction with item",
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

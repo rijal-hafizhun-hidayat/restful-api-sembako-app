@@ -66,4 +66,23 @@ export class TransactionService {
 
     return toTransactionResponse(destroyTransaction);
   }
+
+  static async getAllTransactionWithTransactionItemsAndItem(
+    transactionId: number
+  ) {
+    const result = await prisma.transaction.findUnique({
+      where: {
+        id: transactionId,
+      },
+      include: {
+        transaction_items: {
+          include: {
+            item: true,
+          },
+        },
+      },
+    });
+
+    return result;
+  }
 }

@@ -46,4 +46,8 @@ authRoute.delete(
   "/api/transaction/:transactionId",
   TransactionController.destroyTransactionByTransactionId
 );
+authRoute.get(
+  "/api/transaction/:transactionId/items",
+  TransactionController.getAllTransactionWithTransactionItemsAndItem
+);
 export { authRoute };

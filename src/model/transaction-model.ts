@@ -1,4 +1,4 @@
-import type { item, transaction_item } from "@prisma/client";
+import type { item, transaction, transaction_item } from "@prisma/client";
 
 export interface TransactionRequest {
   total_price: number;
@@ -24,7 +24,27 @@ export interface TransactionItemsWithItemResponse {
   item: item;
 }
 
+export function toTransactionResponse(transaction: transaction): transaction {
+  return {
+    id: transaction.id,
+    total_price: transaction.total_price,
+    created_at: transaction.created_at,
+    updated_at: transaction.updated_at,
+  };
+}
+
 export function toTransactionsResponse(
+  transactions: transaction[]
+): transaction[] {
+  return transactions.map((transaction) => ({
+    id: transaction.id,
+    total_price: transaction.total_price,
+    created_at: transaction.created_at,
+    updated_at: transaction.updated_at,
+  }));
+}
+
+export function toTransactionsWithTransactionItemsAndItemResponse(
   transactions: TransactionWithTransactionItemsAndItemResponse[]
 ): TransactionWithTransactionItemsAndItemResponse[] {
   return transactions.map((transaction) => ({

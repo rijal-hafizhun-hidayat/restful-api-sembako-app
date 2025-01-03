@@ -1,9 +1,15 @@
+import type { transaction } from "@prisma/client";
 import { prisma } from "../app/database";
 import type { TransactionWithItemsRequest } from "../model/transaction-item-model";
-import type { TransactionRequest } from "../model/transaction-model";
+import {
+  toTransactionResponse,
+  toTransactionsResponse,
+  type TransactionRequest,
+} from "../model/transaction-model";
 import { FormatUtils } from "../utils/format-utils";
 import { TransactionValidation } from "../validation/transaction-validation";
 import { Validation } from "../validation/validation";
+import { ErrorResponse } from "../error/error-response";
 
 export class TransactionService {
   static async storeTransaction(request: TransactionRequest): Promise<any> {
@@ -18,22 +24,46 @@ export class TransactionService {
         requestBody.qty_per_item
       );
 
-    const storeTransaction = await prisma.$transaction(async (prisma) => {
-      const transaction = await prisma.transaction.create({
+    const [storeTransaction] = await prisma.$transaction([
+      prisma.transaction.create({
         data: {
           total_price: requestBody.total_price,
+          transaction_items: {
+            create: transactionWithItemsRequest,
+          },
         },
-      });
-
-      await prisma.transaction_item.createManyAndReturn({
-        data: transactionWithItemsRequest.map((transactionWithItemRequest) => ({
-          transaction_id: transaction.id,
-          item_id: transactionWithItemRequest.item_id,
-          qty: transactionWithItemRequest.qty,
-        })),
-      });
-    });
+      }),
+    ]);
 
     return storeTransaction;
+  }
+
+  static async getAllTransaction(): Promise<transaction[]> {
+    const result = await prisma.transaction.findMany();
+    return toTransactionsResponse(result);
+  }
+
+  static async destroyTransactionByTransactionId(
+    transactionId: number
+  ): Promise<transaction> {
+    const isTransactionExist = await prisma.transaction.findUnique({
+      where: {
+        id: transactionId,
+      },
+    });
+
+    if (!isTransactionExist) {
+      throw new ErrorResponse(404, "transaction not found");
+    }
+
+    const [destroyTransaction] = await prisma.$transaction([
+      prisma.transaction.delete({
+        where: {
+          id: transactionId,
+        },
+      }),
+    ]);
+
+    return toTransactionResponse(destroyTransaction);
   }
 }

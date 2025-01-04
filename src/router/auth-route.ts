@@ -5,6 +5,7 @@ import { AuthController } from "../controller/auth-controller";
 import { CategoryController } from "../controller/category-controller";
 import { ItemController } from "../controller/item-controller";
 import { TransactionController } from "../controller/transaction-controller";
+import { DashboardController } from "../controller/dashboard-controller";
 
 const authRoute = express.Router();
 
@@ -49,5 +50,11 @@ authRoute.delete(
 authRoute.get(
   "/api/transaction/:transactionId/items",
   TransactionController.getAllTransactionWithTransactionItemsAndItem
+);
+
+authRoute.get("/api/dashboard/sales", DashboardController.getAllSalesByToday);
+authRoute.get(
+  "/api/dashboard/count-transaction",
+  DashboardController.getAllCountTransactionByToday
 );
 export { authRoute };

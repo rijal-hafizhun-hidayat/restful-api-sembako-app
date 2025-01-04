@@ -52,9 +52,12 @@ authRoute.get(
   TransactionController.getAllTransactionWithTransactionItemsAndItem
 );
 
-authRoute.get("/api/dashboard/sales", DashboardController.getAllSalesByToday);
 authRoute.get(
-  "/api/dashboard/count-transaction",
+  "/api/dashboard/today-sales",
+  DashboardController.getAllSalesByToday
+);
+authRoute.get(
+  "/api/dashboard/today-count-transaction",
   DashboardController.getAllCountTransactionByToday
 );
 export { authRoute };

@@ -4,7 +4,9 @@ import type { TransactionWithItemsRequest } from "../model/transaction-item-mode
 import {
   toTransactionResponse,
   toTransactionsResponse,
+  toTransactionWithTransactionItemsAndItemResponse,
   type TransactionRequest,
+  type TransactionWithTransactionItemsAndItemResponse,
 } from "../model/transaction-model";
 import { FormatUtils } from "../utils/format-utils";
 import { TransactionValidation } from "../validation/transaction-validation";
@@ -69,7 +71,7 @@ export class TransactionService {
 
   static async getAllTransactionWithTransactionItemsAndItem(
     transactionId: number
-  ) {
+  ): Promise<TransactionWithTransactionItemsAndItemResponse> {
     const result = await prisma.transaction.findUnique({
       where: {
         id: transactionId,
@@ -83,6 +85,10 @@ export class TransactionService {
       },
     });
 
-    return result;
+    if (!result) {
+      throw new ErrorResponse(404, "transaction not found");
+    }
+
+    return toTransactionWithTransactionItemsAndItemResponse(result);
   }
 }

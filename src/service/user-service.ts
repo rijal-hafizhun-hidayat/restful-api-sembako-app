@@ -121,4 +121,59 @@ export class UserService {
 
     return toUserWithUserRoleAndRoleResponse(storeUser);
   }
+
+  static async updateUserByUserId(
+    request: UserWithRoleRequest,
+    userId: number
+  ) {
+    const requestBody: UserWithRoleRequest = Validation.validate(
+      UserValidation.updateUserWithRoleSchema,
+      request
+    );
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      include: {
+        user_role: true,
+      },
+    });
+
+    if (!user) {
+      throw new ErrorResponse(404, "user not found");
+    }
+
+    const [updateUser] = await prisma.$transaction([
+      prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          name: requestBody.name,
+          email: requestBody.email,
+          password: user.password,
+          user_role: {
+            update: {
+              where: {
+                id: user.user_role!.id,
+              },
+              data: {
+                role_id: requestBody.role.id,
+              },
+            },
+          },
+        },
+        include: {
+          user_role: {
+            include: {
+              role: true,
+            },
+          },
+        },
+      }),
+    ]);
+
+    return updateUser;
+  }
 }

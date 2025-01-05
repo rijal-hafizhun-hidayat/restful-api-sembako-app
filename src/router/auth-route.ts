@@ -66,4 +66,5 @@ authRoute.get("/api/user", UserController.getAllUser);
 authRoute.post("/api/user", UserController.storeUser);
 authRoute.get("/api/user/:userId", UserController.getUserByUserId);
 authRoute.delete("/api/user/:userId", UserController.destroyUserByUserId);
+authRoute.put("/api/user/:userId", UserController.updateUserByUserId);
 export { authRoute };

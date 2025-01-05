@@ -6,6 +6,7 @@ import { CategoryController } from "../controller/category-controller";
 import { ItemController } from "../controller/item-controller";
 import { TransactionController } from "../controller/transaction-controller";
 import { DashboardController } from "../controller/dashboard-controller";
+import { UserController } from "../controller/user-controller";
 
 const authRoute = express.Router();
 
@@ -60,4 +61,7 @@ authRoute.get(
   "/api/dashboard/today-count-transaction",
   DashboardController.getAllCountTransactionByToday
 );
+
+authRoute.get("/api/user", UserController.getAllUser);
+authRoute.get("/api/user/:userId", UserController.getUserByUserId);
 export { authRoute };

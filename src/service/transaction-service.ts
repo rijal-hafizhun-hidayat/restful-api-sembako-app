@@ -4,6 +4,7 @@ import type { TransactionWithItemsRequest } from "../model/transaction-item-mode
 import {
   toTransactionResponse,
   toTransactionsResponse,
+  toTransactionsWithTransactionItemsAndItemResponse,
   toTransactionWithTransactionItemsAndItemResponse,
   type TransactionRequest,
   type TransactionWithTransactionItemsAndItemResponse,
@@ -41,8 +42,16 @@ export class TransactionService {
   }
 
   static async getAllTransaction(): Promise<transaction[]> {
-    const result = await prisma.transaction.findMany();
-    return toTransactionsResponse(result);
+    const result = await prisma.transaction.findMany({
+      include: {
+        transaction_items: {
+          include: {
+            item: true,
+          },
+        },
+      },
+    });
+    return toTransactionsWithTransactionItemsAndItemResponse(result);
   }
 
   static async destroyTransactionByTransactionId(

@@ -73,4 +73,23 @@ export class UserController {
       next(error);
     }
   }
+
+  static async updateUserByUserId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> {
+    try {
+      const userId: number = parseInt(req.params.userId as string);
+      const request: UserWithRoleRequest = req.body as UserWithRoleRequest;
+      const result = await UserService.updateUserByUserId(request, userId);
+      return res.status(200).json({
+        statusCode: 200,
+        message: "success update user",
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

@@ -14,4 +14,10 @@ export class UserValidation {
     password: string().min(1).max(100),
     role: UserValidation.roleSchema,
   });
+
+  static readonly updateUserWithRoleSchema: ZodType = z.object({
+    name: string().min(1).max(100),
+    email: string().min(1).max(100),
+    role: UserValidation.roleSchema,
+  });
 }

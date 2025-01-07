@@ -28,6 +28,7 @@ export class ItemService {
         data: {
           name: requestBody.name,
           price: requestBody.price,
+          unit: requestBody.unit,
           description: requestBody.description,
         },
       }),
@@ -117,6 +118,7 @@ export class ItemService {
         data: {
           name: requestBody.name,
           price: requestBody.price,
+          unit: requestBody.unit,
           description: requestBody.description,
         },
       }),

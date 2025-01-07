@@ -65,6 +65,7 @@ export function toTransactionsWithTransactionItemsAndItemResponse(
           name: transaction_item.item.name,
           price: transaction_item.item.price,
           description: transaction_item.item.description,
+          unit: transaction_item.item.unit,
           created_at: transaction_item.item.created_at,
           updated_at: transaction_item.item.updated_at,
         },
@@ -93,6 +94,7 @@ export function toTransactionWithTransactionItemsAndItemResponse(
           id: transaction_item.item.id,
           name: transaction_item.item.name,
           price: transaction_item.item.price,
+          unit: transaction_item.item.unit,
           description: transaction_item.item.description
             ? transaction_item.item.description
             : null,

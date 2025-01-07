@@ -55,6 +55,7 @@ model item {
   name             String             @db.VarChar()
   price            Int                @db.Integer
   description      String?            @db.VarChar()
+  unit             String?            @db.VarChar()
   created_at       DateTime           @default(now())
   updated_at       DateTime           @updatedAt
   category_item    category_item?

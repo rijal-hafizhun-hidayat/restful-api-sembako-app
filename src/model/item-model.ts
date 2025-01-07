@@ -3,6 +3,7 @@ import type { category, item } from "@prisma/client";
 export interface ItemRequest {
   name: string;
   price: number;
+  unit: string;
   description: string;
   category: category;
 }
@@ -11,6 +12,7 @@ export interface ItemWithCategoryItemWithCategory {
   id: number;
   name: string;
   price: number;
+  unit: string | null;
   description: string | null;
   created_at: Date;
   updated_at: Date;
@@ -32,6 +34,7 @@ export function toItemsResponse(items: item[]): item[] {
       id: item.id,
       name: item.name,
       price: item.price,
+      unit: item.unit,
       description: item.description,
       created_at: item.created_at,
       updated_at: item.updated_at,
@@ -44,6 +47,7 @@ export function toItemResponse(item: item): item {
     id: item.id,
     name: item.name,
     price: item.price,
+    unit: item.unit,
     description: item.description,
     created_at: item.created_at,
     updated_at: item.updated_at,
@@ -57,6 +61,7 @@ export function toItemWithCategoryItemWithCategoryResponse(
     id: item.id,
     name: item.name,
     price: item.price,
+    unit: item.unit ? item.unit : null,
     description: item.description ? item.description : null,
     created_at: item.created_at,
     updated_at: item.updated_at,

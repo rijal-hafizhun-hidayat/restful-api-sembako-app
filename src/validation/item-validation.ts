@@ -10,6 +10,7 @@ export class ItemValidation {
 
   static readonly itemWithCategorySchema: ZodType = z.object({
     name: string().min(1).max(100),
+    unit: string().min(1).max(100),
     price: number().int(),
     description: string().nullish(),
     category: ItemValidation.categorySchema,
